@@ -1,4 +1,8 @@
-const sum = (...numbers: number[]): number =>
-  numbers.reduce((acc: number, current: number): number => acc + current, 0);
+import { LevDistance } from "./types";
+import { calculateLevenshteinDistance } from "./calculate-lev-distance";
 
-console.log("sum of 2, 3, 10, and 8 = ", sum(2, 3, 10, 8));
+const result: LevDistance = calculateLevenshteinDistance(
+  "Ryan Gosling",
+  "Rian Gossling",
+);
+console.log(JSON.stringify(result, null, 2));
