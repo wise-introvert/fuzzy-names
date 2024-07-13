@@ -1,5 +1,5 @@
 {
-  "name": "@akebsi/names-handler",
+  "name": "@wise-introvert/fuzzy-name",
   "version": "0.0.1",
   "main": "./dist/index.js",
   "license": "MIT",
