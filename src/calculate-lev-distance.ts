@@ -19,14 +19,10 @@ export const calculateLevenshteinDistance = (
     corpusNameParts.lastName,
   );
 
-  let middleNameDistance: number = 0;
-
-  if (queryNameParts.middleNames.length > 0) {
-    middleNameDistance = distance(
-      queryNameParts.middleNames.join(" "),
-      corpusNameParts.middleNames.join(" "),
-    );
-  }
+  let middleNameDistance: number = distance(
+    queryNameParts.middleNames.join(" "),
+    corpusNameParts.middleNames.join(" "),
+  );
 
   const totalDistance: number =
     firstNameDistance + lastNameDistance + middleNameDistance;
