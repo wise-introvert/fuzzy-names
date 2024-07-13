@@ -1,5 +1,4 @@
 import natural from "natural";
-import { negate, isEmpty } from 'lodash'
 
 import { normalizeName } from './normalize'
 import { NameParts } from "./types";
@@ -46,5 +45,5 @@ export const calculatePhoneticMetric = (inputName: string, corpusName: string): 
         isDoubleMetaphoneMatch(corpusNameParts.lastName, inputNameParts.lastName),
     ]
 
-    return results.filter(negate(isEmpty)).length
+    return results.filter((result: boolean): boolean => result).length
 }
