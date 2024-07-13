@@ -2,3 +2,4 @@ export * from './types';
 export * from './normalize';
 export * from './split';
 export * from './calculate-lev-distance';
+export * from './compare-using-phonetics';
