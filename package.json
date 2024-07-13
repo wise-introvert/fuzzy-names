@@ -1,5 +1,5 @@
 {
-  "name": "@wise-introvert/fuzzy-name",
+  "name": "fuzzy-names",
   "version": "0.0.1",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -26,5 +26,14 @@
     "fastest-levenshtein": "^1.0.16",
     "lodash": "^4.17.21",
     "natural": "^7.0.6"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wise-introvert/fuzzy-name.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wise-introvert/fuzzy-name/issues"
+  },
+  "homepage": "https://github.com/wise-introvert/fuzzy-name#readme",
+  "author": "Wise Introvert <fardeen.wi.panjwani@gmail.com>"
 }
