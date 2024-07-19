@@ -10,3 +10,7 @@ export interface LevDistance {
   lastName: number;
   total: number;
 }
+
+export interface CalculatePhoneticsMetricOptions {
+    returnAsPercentage?: boolean;
+}

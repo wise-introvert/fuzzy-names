@@ -1,7 +1,8 @@
 import natural from "natural";
+import { get } from 'lodash';
 
 import { normalizeName } from './normalize'
-import { NameParts } from "./types";
+import { NameParts, CalculatePhoneticsMetricOptions } from "./types";
 import { splitNameIntoParts } from "./split";
 
 const soundEx: natural.SoundEx = new natural.SoundEx();
@@ -29,11 +30,12 @@ export const isDoubleMetaphoneMatch = (input: string, corpus: string): boolean =
     return dm.compare(input, corpus)
 }
 
-export const calculatePhoneticMetric = (inputName: string, corpusName: string): number => {
+export const calculatePhoneticMetric = (inputName: string, corpusName: string, options?: CalculatePhoneticsMetricOptions): number => {
     const inputNameParts: NameParts = splitNameIntoParts(inputName);
     const corpusNameParts: NameParts = splitNameIntoParts(corpusName);
+    const returnAsPercentage: boolean = get(options, 'returnAsPercentage', false)
 
-    let results: boolean[] = [
+    const results: boolean[] = [
         isSoundExMatch(corpusNameParts.firstName, inputNameParts.firstName),
         isMetaphoneMatch(corpusNameParts.firstName, inputNameParts.firstName),
         isDoubleMetaphoneMatch(corpusNameParts.firstName, inputNameParts.firstName),
@@ -45,5 +47,7 @@ export const calculatePhoneticMetric = (inputName: string, corpusName: string): 
         isDoubleMetaphoneMatch(corpusNameParts.lastName, inputNameParts.lastName),
     ]
 
-    return results.filter((result: boolean): boolean => result).length
+    const metric: number = results.filter((result: boolean): boolean => result).length
+
+    return returnAsPercentage ? parseFloat(((metric / 9) * 100).toFixed(2)) : metric
 }
