@@ -14,3 +14,8 @@ export interface LevDistance {
 export interface CalculatePhoneticsMetricOptions {
     returnAsPercentage?: boolean;
 }
+
+export interface MatchMetric {
+    levDistance: LevDistance;
+    phoneticsMetric: number;
+}
