@@ -1,5 +1,7 @@
+import { deburr } from 'lodash';
+
 export const normalizeName = (name: string): string =>
-  name
+  deburr(name)
     .toLowerCase()
     .replace(/[ ]{2,}/gi, " ")
     .replace(/[^a-zA-Z ]/g, "")
