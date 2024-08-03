@@ -2,19 +2,7 @@ import { get, orderBy } from "lodash";
 
 import { calculateMatchMetric } from "./calculate-match-metric";
 import { normalizeName } from "./normalize";
-import type { MatchMetric } from "./types";
-
-export type MatchItem = Record<string, unknown> | string;
-
-export type Options = {
-  readonly matchPath: ReadonlyArray<number | string>;
-};
-
-export type ScoreProcessorOutput<T = MatchItem> = {
-  input: string;
-  corpus: T;
-  matchMetric: MatchMetric;
-};
+import type { MatchItem, Options, ScoreProcessorOutput } from "./types";
 
 const fillDefaultOptions = (options?: Partial<Options>): Options => {
   const optionsWithDefaultValues: Options = {

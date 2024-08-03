@@ -12,10 +12,22 @@ export interface LevDistance {
 }
 
 export interface CalculatePhoneticsMetricOptions {
-    returnAsPercentage?: boolean;
+  returnAsPercentage?: boolean;
 }
 
 export interface MatchMetric {
-    levDistance: LevDistance;
-    phoneticsMetric: number;
+  levDistance: LevDistance;
+  phoneticsMetric: number;
 }
+
+export type MatchItem = Record<string, unknown> | string;
+
+export type Options = {
+  readonly matchPath: ReadonlyArray<number | string>;
+};
+
+export type ScoreProcessorOutput<T = MatchItem> = {
+  input: string;
+  corpus: T;
+  matchMetric: MatchMetric;
+};
