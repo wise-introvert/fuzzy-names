@@ -44,6 +44,10 @@ export const search = <T = MatchItem>(
   matchList: Array<T>,
   options?: Partial<Options>,
 ): Array<T> | T | null => {
+  if (matchList.length <= 0) {
+    return null;
+  }
+
   const optionsWithDefaultValues: Options = fillDefaultOptions(options);
 
   const scoreProcessor = (matchItem: T): ScoreProcessorOutput<T> => ({
@@ -59,9 +63,13 @@ export const search = <T = MatchItem>(
 
   const sortedFuzzyMatches: Array<ScoreProcessorOutput<T>> = orderBy(
     matches,
-    ["matchMetric.levDistance.total", "matchMetric.phoneticsMetric"],
-    ["asc", "desc"],
+    ["matchMetric.phoneticsMetric", "matchMetric.levDistance.total"],
+    ["desc", "asc"],
   );
+  const bestMatch: ScoreProcessorOutput<T> = get(sortedFuzzyMatches, "[0]");
+  if (bestMatch.matchMetric.phoneticsMetric <= 0) {
+    return null;
+  }
 
-  return get(sortedFuzzyMatches, "[0].corpus", null);
+  return get(bestMatch, "corpus", null);
 };
