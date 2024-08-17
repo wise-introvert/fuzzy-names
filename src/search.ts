@@ -4,9 +4,16 @@ import { calculateMatchMetric } from "./calculate-match-metric";
 import { normalizeName } from "./normalize";
 import type { MatchItem, Options, ScoreProcessorOutput } from "./types";
 
+const DEFAULT_DISTANCE_THRESHOLD: number = 10;
+const DEFAULT_PHONETICS_THRESHOLD: number = 0;
+
 const fillDefaultOptions = (options?: Partial<Options>): Options => {
   const optionsWithDefaultValues: Options = {
     matchPath: [],
+    threshold: {
+        phonetics: DEFAULT_PHONETICS_THRESHOLD,
+        distance: DEFAULT_DISTANCE_THRESHOLD
+    },
     ...options,
   };
 
@@ -59,7 +66,19 @@ export const search = <T = MatchItem>(
     ),
   });
 
-  const matches: Array<ScoreProcessorOutput<T>> = matchList.map(scoreProcessor);
+  const distanceThreshold: number = get(options, "threshold.distance", DEFAULT_DISTANCE_THRESHOLD)
+  const phoneticsThreshold: number = get(options, "threshold.phonetics", DEFAULT_PHONETICS_THRESHOLD)
+
+  const matches: Array<ScoreProcessorOutput<T>> = matchList.map(scoreProcessor).filter((match: ScoreProcessorOutput<T>): boolean => {
+      const matchTotalDistance: number = get(match, "matchMetric.levDistance.total")
+      const matchPhoneticsScore: number = get(match, "matchMetric.phoneticsMetric")
+
+      return matchTotalDistance <= distanceThreshold && matchPhoneticsScore >= phoneticsThreshold
+  })
+
+  if(matches.length <= 0) {
+      return null
+  }
 
   const sortedFuzzyMatches: Array<ScoreProcessorOutput<T>> = orderBy(
     matches,
@@ -67,6 +86,7 @@ export const search = <T = MatchItem>(
     ["desc", "asc"],
   );
   const bestMatch: ScoreProcessorOutput<T> = get(sortedFuzzyMatches, "[0]");
+
   if (bestMatch.matchMetric.phoneticsMetric <= 0) {
     return null;
   }

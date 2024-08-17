@@ -24,6 +24,10 @@ export type MatchItem = Record<string, unknown> | string;
 
 export type Options = {
   readonly matchPath: ReadonlyArray<number | string>;
+  readonly threshold: {
+      phonetics?: number;
+      distance?: number;
+  };
 };
 
 export type ScoreProcessorOutput<T = MatchItem> = {
