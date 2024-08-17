@@ -413,6 +413,9 @@ describe("search", () => {
     ];
     const result = search("John Jacob Schmidt", longNameList, {
       matchPath: ["name"],
+      threshold: {
+          distance: 13
+      }
     });
     expect(result).toEqual({ name: "John Jacob Jingleheimer Schmidt" });
   });
