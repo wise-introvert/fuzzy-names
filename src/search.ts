@@ -5,7 +5,7 @@ import { normalizeName } from "./normalize";
 import type { MatchItem, Options, ScoreProcessorOutput } from "./types";
 
 const DEFAULT_DISTANCE_THRESHOLD: number = 10;
-const DEFAULT_PHONETICS_THRESHOLD: number = 0;
+const DEFAULT_PHONETICS_THRESHOLD: number = 1;
 
 const fillDefaultOptions = (options?: Partial<Options>): Options => {
   const optionsWithDefaultValues: Options = {
@@ -72,7 +72,6 @@ export const search = <T = MatchItem>(
   const matches: Array<ScoreProcessorOutput<T>> = matchList.map(scoreProcessor).filter((match: ScoreProcessorOutput<T>): boolean => {
       const matchTotalDistance: number = get(match, "matchMetric.levDistance.total")
       const matchPhoneticsScore: number = get(match, "matchMetric.phoneticsMetric")
-
       return matchTotalDistance <= distanceThreshold && matchPhoneticsScore >= phoneticsThreshold
   })
 
