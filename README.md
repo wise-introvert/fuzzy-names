@@ -2,104 +2,6 @@
 
 A powerful TypeScript library for fuzzy name matching that combines Levenshtein distance and phonetic similarity algorithms to provide accurate name matching capabilities.
 
-## How It Works
-
-The core functionality of this library revolves around the `search` function, which implements a sophisticated name matching algorithm combining both edit distance and phonetic similarity measures. This dual approach allows for highly accurate name matching that can handle variations in spelling, pronunciation, and formatting.
-
-### Search Algorithm Overview
-
-The search process follows these steps:
-
-1. **Name Normalization**: Input names are normalized by removing special characters, converting to lowercase, and standardizing spacing.
-2. **Name Part Splitting**: Names are split into first, middle, and last name components for granular comparison.
-3. **Distance Calculation**: Levenshtein distance is computed for each name part.
-4. **Phonetic Matching**: Multiple phonetic algorithms are applied for pronunciation-based matching.
-5. **Score Combination**: Results are combined and weighted to determine the best match.
-
-### Underlying Algorithms
-
-#### Levenshtein Distance
-
-The Levenshtein distance algorithm measures the minimum number of single-character edits required to change one string into another. For example:
-
-- "John" to "Jon" has a distance of 1 (one deletion)
-- "Smith" to "Smyth" has a distance of 1 (one substitution)
-- "Catherine" to "Katherine" has a distance of 1 (one substitution)
-
-The library calculates this distance separately for each name part (first, middle, last) to provide more accurate matching for full names.
-
-#### SoundEx
-
-SoundEx is a phonetic algorithm that indexes names by sound as pronounced in English. It generates a code that remains the same for similar-sounding names:
-
-1. Keeps the first letter
-2. Converts remaining letters to numbers:
-   - 1 = B, F, P, V
-   - 2 = C, G, J, K, Q, S, X, Z
-   - 3 = D, T
-   - 4 = L
-   - 5 = M, N
-   - 6 = R
-
-For example:
-- "Robert" and "Rupert" both encode to "R163"
-- "Smith" and "Smythe" both encode to "S530"
-
-#### Metaphone
-
-Metaphone improves upon SoundEx by using more sophisticated rules that better handle English pronunciation patterns. It considers letter combinations and their positions:
-
-- Handles combinations like "PH" (sounds like "F")
-- Accounts for silent letters
-- Considers word beginnings and endings differently
-
-For example:
-- "Philip" and "Filip" both encode to "FLP"
-- "Catherine" and "Kathryn" both encode to "K0RN"
-
-#### Double Metaphone
-
-Double Metaphone further enhances the Metaphone algorithm by:
-
-1. Providing primary and alternative encodings for names
-2. Better handling international name variations
-3. Supporting multiple cultural pronunciation patterns
-
-This is particularly useful for names that might have different pronunciations or cultural origins. For example:
-- "Zhang" might encode to both "JNG" and "CSNG"
-- "Michael" might encode to both "MKL" and "MXL"
-
-### Scoring and Matching Process
-
-The search function combines these algorithms in the following way:
-
-1. **Initial Filtering**:
-   - Normalizes all names in the search corpus
-   - Applies basic string matching optimizations
-
-2. **Distance Scoring**:
-   - Calculates Levenshtein distance for each name part
-   - Applies weightings based on name part importance
-   - Filters out matches exceeding the distance threshold
-
-3. **Phonetic Matching**:
-   - Applies all three phonetic algorithms
-   - Counts matching algorithms for each name part
-   - Generates a phonetic similarity score (0-9, 3 points per algorithm)
-
-4. **Final Ranking**:
-   - Combines distance and phonetic scores
-   - Prioritizes matches with high phonetic similarity
-   - Uses Levenshtein distance as a tiebreaker
-   - Returns the best match above the threshold
-
-This multi-algorithm approach provides robust matching that can handle:
-- Common spelling variations
-- Phonetic similarities
-- Typographical errors
-- Cultural name variations
-- Different name formats
-
 ## Table of Contents
 - [Installation](#installation)
 - [Core Features](#core-features)
@@ -112,6 +14,7 @@ This multi-algorithm approach provides robust matching that can handle:
   - [splitNameIntoParts](#splitnameintoparts)
 - [Types](#types)
 - [Examples](#examples)
+- [How it works](#how-it-works)
 
 ## Installation
 
@@ -213,7 +116,7 @@ function search<T = MatchItem>(
         // Array index access
         search("John", arrays, { matchPath: ["names", 0] })
         ```
-    
+
     - `threshold: { distance?: number, phonetics?: number }`
       - Fine-tunes the matching sensitivity
       - `distance` property:
@@ -503,4 +406,102 @@ const result = search("Johnny Doe", names, {
   }
 });
 // Returns: "Jonathan Doe"
-``` 
+```
+
+## How It Works
+
+The core functionality of this library revolves around the `search` function, which implements a sophisticated name matching algorithm combining both edit distance and phonetic similarity measures. This dual approach allows for highly accurate name matching that can handle variations in spelling, pronunciation, and formatting.
+
+### Search Algorithm Overview
+
+The search process follows these steps:
+
+1. **Name Normalization**: Input names are normalized by removing special characters, converting to lowercase, and standardizing spacing.
+2. **Name Part Splitting**: Names are split into first, middle, and last name components for granular comparison.
+3. **Distance Calculation**: Levenshtein distance is computed for each name part.
+4. **Phonetic Matching**: Multiple phonetic algorithms are applied for pronunciation-based matching.
+5. **Score Combination**: Results are combined and weighted to determine the best match.
+
+### Underlying Algorithms
+
+#### Levenshtein Distance
+
+The Levenshtein distance algorithm measures the minimum number of single-character edits required to change one string into another. For example:
+
+- "John" to "Jon" has a distance of 1 (one deletion)
+- "Smith" to "Smyth" has a distance of 1 (one substitution)
+- "Catherine" to "Katherine" has a distance of 1 (one substitution)
+
+The library calculates this distance separately for each name part (first, middle, last) to provide more accurate matching for full names.
+
+#### SoundEx
+
+SoundEx is a phonetic algorithm that indexes names by sound as pronounced in English. It generates a code that remains the same for similar-sounding names:
+
+1. Keeps the first letter
+2. Converts remaining letters to numbers:
+   - 1 = B, F, P, V
+   - 2 = C, G, J, K, Q, S, X, Z
+   - 3 = D, T
+   - 4 = L
+   - 5 = M, N
+   - 6 = R
+
+For example:
+- "Robert" and "Rupert" both encode to "R163"
+- "Smith" and "Smythe" both encode to "S530"
+
+#### Metaphone
+
+Metaphone improves upon SoundEx by using more sophisticated rules that better handle English pronunciation patterns. It considers letter combinations and their positions:
+
+- Handles combinations like "PH" (sounds like "F")
+- Accounts for silent letters
+- Considers word beginnings and endings differently
+
+For example:
+- "Philip" and "Filip" both encode to "FLP"
+- "Catherine" and "Kathryn" both encode to "K0RN"
+
+#### Double Metaphone
+
+Double Metaphone further enhances the Metaphone algorithm by:
+
+1. Providing primary and alternative encodings for names
+2. Better handling international name variations
+3. Supporting multiple cultural pronunciation patterns
+
+This is particularly useful for names that might have different pronunciations or cultural origins. For example:
+- "Zhang" might encode to both "JNG" and "CSNG"
+- "Michael" might encode to both "MKL" and "MXL"
+
+### Scoring and Matching Process
+
+The search function combines these algorithms in the following way:
+
+1. **Initial Filtering**:
+   - Normalizes all names in the search corpus
+   - Applies basic string matching optimizations
+
+2. **Distance Scoring**:
+   - Calculates Levenshtein distance for each name part
+   - Applies weightings based on name part importance
+   - Filters out matches exceeding the distance threshold
+
+3. **Phonetic Matching**:
+   - Applies all three phonetic algorithms
+   - Counts matching algorithms for each name part
+   - Generates a phonetic similarity score (0-9, 3 points per algorithm)
+
+4. **Final Ranking**:
+   - Combines distance and phonetic scores
+   - Prioritizes matches with high phonetic similarity
+   - Uses Levenshtein distance as a tiebreaker
+   - Returns the best match above the threshold
+
+This multi-algorithm approach provides robust matching that can handle:
+- Common spelling variations
+- Phonetic similarities
+- Typographical errors
+- Cultural name variations
+- Different name formats
