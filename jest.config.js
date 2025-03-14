@@ -1,6 +1,12 @@
 // jest.config.js
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
-  testEnvironment: "node",
-  preset: "ts-jest",
+export default {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest',
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  testMatch: ['**/__tests__/**/*.test.ts'],
+  verbose: true,
 };
