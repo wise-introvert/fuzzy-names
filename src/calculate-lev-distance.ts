@@ -1,4 +1,4 @@
-import { distance } from "fastest-levenshtein";
+import { distance } from "./utils/lev";
 
 import { LevDistance, NameParts } from "./types";
 import { splitNameIntoParts } from "./split";
