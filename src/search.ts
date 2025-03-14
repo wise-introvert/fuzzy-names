@@ -28,8 +28,7 @@ const getMatchItemStr = <T = MatchItem>(
   const matchItemStr =
     matchPath.length > 0
       ? matchPath.reduce<unknown>((acc, prop) => {
-          // @ts-expect-error skip redundant type check
-          return acc?.[prop];
+          return acc && typeof acc === 'object' ? acc[prop as keyof typeof acc] : undefined;
         }, matchItem)
       : matchItem;
   if (typeof matchItemStr !== "string") return "";
