@@ -11,13 +11,14 @@ export default {
       format: 'cjs',
       sourcemap: true,
       exports: 'named',
+      interop: 'auto'
     },
     {
       file: 'dist/index.esm.js',
       format: 'es',
       sourcemap: true,
-      exports: 'named',
-    },
+      exports: 'named'
+    }
   ],
   external: [
     'lodash.deburr',
@@ -31,13 +32,16 @@ export default {
   ],
   plugins: [
     nodeResolve(),
-    commonjs(),
+    commonjs({
+      include: 'node_modules/**'
+    }),
     typescript({
       tsconfig: './tsconfig.json',
       declaration: true,
       declarationDir: './dist',
       include: ['src/**/*'],
       exclude: ['**/*.test.ts'],
+      sourceMap: true
     }),
     terser({
       compress: {
