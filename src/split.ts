@@ -1,4 +1,5 @@
-import { get, isEmpty } from "lodash";
+import get from "lodash.get";
+import isEmpty from "lodash.isempty";
 
 import { normalizeName } from "./normalize";
 import { NameParts } from "./types";

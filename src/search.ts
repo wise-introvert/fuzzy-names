@@ -1,4 +1,5 @@
-import { get, orderBy } from "lodash";
+import get from "lodash.get";
+import orderBy from "lodash.orderby";
 
 import { calculateMatchMetric } from "./calculate-match-metric";
 import { normalizeName } from "./normalize";

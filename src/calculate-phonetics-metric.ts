@@ -1,5 +1,8 @@
 import natural from "natural";
-import { get, every, isEmpty, negate } from "lodash";
+import every from "lodash.every";
+import get from "lodash.get";
+import isEmpty from "lodash.isempty";
+import negate from "lodash.negate";
 
 import { normalizeName } from "./normalize";
 import { NameParts, CalculatePhoneticsMetricOptions } from "./types";

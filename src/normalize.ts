@@ -1,4 +1,4 @@
-import { deburr } from "lodash";
+import deburr from "lodash.deburr";
 
 export const normalizeName = (name: string): string =>
   deburr(name)

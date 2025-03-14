@@ -17,7 +17,12 @@
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
     "@types/jest": "^29.5.12",
-    "@types/lodash": "^4.17.6",
+    "@types/lodash.deburr": "^4.1.9",
+    "@types/lodash.every": "^4.6.9",
+    "@types/lodash.get": "^4.4.9",
+    "@types/lodash.isempty": "^4.4.9",
+    "@types/lodash.negate": "^3.0.9",
+    "@types/lodash.orderby": "^4.6.9",
     "@types/natural": "^5.1.5",
     "@types/node": "^20.14.10",
     "jest": "^29.7.0",
@@ -28,7 +33,12 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
+    "lodash.deburr": "^4.1.0",
+    "lodash.every": "^4.6.0",
+    "lodash.get": "^4.4.2",
+    "lodash.isempty": "^4.4.0",
+    "lodash.negate": "^3.0.2",
+    "lodash.orderby": "^4.6.0",
     "natural": "^7.1.0"
   },
   "repository": {
